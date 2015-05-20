@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <!-- Head -->
+  <head>
+    <meta charset="utf-8" />
+    <title page-title></title>
+
+    <meta name="description" content="slider" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <!-- /Head -->
+
+  <!-- Body -->
+  <body>
+
+
+    <div class="num"></div>
+    <div class="def"></div>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="jquery.rating.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+
+        // Full options list
+        // orientation: 'horizontal/vertical',
+        // width: 200, // width of maximized element
+        // height: 30, // height of maximized element
+        // scale: 1.5, // define dimensions of minified version eg width 200 / 1.5 = 133
+        // grades: ['great', 'good', 'better', 'woops', 'bad'],
+        // grade: 1, // default grade
+        // onGradeChanged: function () {} // event will be emited when user click on grade in maximized mode
+
+        $('.num').rating({
+          width: 300, height: 30,
+          grades: ['5','4','3','2','1'],
+          onGradeChanged: function (grade) {
+            console.log('changed grade ', grade);
+          }
+        });
+
+        $('.def').rating({
+          orientation: "vertical",
+          grade: 1,
+          onGradeChanged: function (grade) {
+            console.log('changed grade ', grade);
+          }
+        });
+      });
+    </script>
+
+  </body>
+  <!--  /Body -->
+</html>

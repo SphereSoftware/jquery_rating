@@ -1,0 +1,190 @@
+.rating_meter {
+  border: 4px solid;
+  border-top-color: rgba(0,0,0,0.4);
+  border-right-color: rgba(0,0,0,0.3);
+  border-bottom-color: rgba(0,0,0,0.3);
+  border-left-color: rgba(0,0,0,0.5);
+  margin: 60px auto;
+  border-radius: 50px;
+  position: relative;
+}
+
+
+.rating_meter ul.marking {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.rating_meter ul.marking li {
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+
+.rating_meter ul.marking li span {
+  font-size: 11px;
+  color: #b8b8b8;
+}
+
+.rating_meter.minified ul.marking li span {
+  display: none;
+}
+
+
+.rating_meter .scale {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.rating_meter .filling {
+  width: 100%;
+  height: 100%;
+}
+
+
+.rating_meter .overlay {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  background: #fff;
+}
+
+/* Vertical orientation */
+.rating_meter.vertical {
+  width: 30px;
+  height: 300px;
+}
+
+.rating_meter.vertical.small {
+  width: 15px;
+  height: 150px;
+}
+
+
+.rating_meter.vertical ul.marking {
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.rating_meter.vertical ul.marking li {
+   border-bottom: 1px solid #919191;
+}
+
+.rating_meter.vertical ul.marking li:last-child {
+  border: none;
+}
+
+.rating_meter.vertical ul.marking li span {
+  padding-left: 150%;
+}
+
+
+.rating_meter.vertical .filling {
+  background: -moz-linear-gradient(top,  #00ff3b 0%, #fff830 50%, #fc0000 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00ff3b), color-stop(50%,#fff830), color-stop(100%,#fc0000));
+  background: -webkit-linear-gradient(top,  #00ff3b 0%,#fff830 50%,#fc0000 100%);
+  background: -o-linear-gradient(top,  #00ff3b 0%,#fff830 50%,#fc0000 100%);
+  background: -ms-linear-gradient(top,  #00ff3b 0%,#fff830 50%,#fc0000 100%);
+  background: linear-gradient(to bottom,  #00ff3b 0%,#fff830 50%,#fc0000 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ff3b',endColorstr='#fc0000',GradientType=0);
+}
+
+
+.rating_meter.vertical .overlay {
+  left: 0;
+  bottom: 180px;
+}
+/* End vertical orientation */
+
+
+
+
+
+/* Horizontal orientation */
+.rating_meter.horizontal {
+  width: 300px;
+  height: 50px;
+}
+
+.rating_meter.horizontal.small {
+  width: 150px;
+  height: 15px;
+}
+
+
+.rating_meter.horizontal ul.marking {
+  -webkit-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.rating_meter.horizontal ul.marking li {
+   border-left: 1px solid #919191;
+   text-align: center;
+}
+
+.rating_meter.horizontal ul.marking li:last-child {
+  border: none;
+}
+
+.rating_meter.horizontal ul.marking li span {
+  position: absolute;
+  top: 150%;
+}
+
+
+.rating_meter.horizontal .filling {
+  background: -moz-linear-gradient(top,  #00ff3b 0%, #fff830 50%, #fc0000 100%);
+  background: -webkit-gradient(linear, top top, left bottom, color-stop(0%,#00ff3b), color-stop(50%,#fff830), color-stop(100%,#fc0000));
+  background: -webkit-linear-gradient(right,  #00ff3b 0%,#fff830 50%,#fc0000 100%);
+  background: -o-linear-gradient(right,  #00ff3b 0%,#fff830 50%,#fc0000 100%);
+  background: -ms-linear-gradient(right,  #00ff3b 0%,#fff830 50%,#fc0000 100%);
+  background: linear-gradient(to left,  #00ff3b 0%,#fff830 50%,#fc0000 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fc0000',endColorstr='#00ff3b',GradientType=1);
+}
+
+
+.rating_meter.horizontal .overlay {
+  left: 0;
+  bottom: 0;
+}
+
+/* End horizontal orientation */
+
+/* No flex support */
+.rating_meter.no_flex ul.marking {
+  display: table;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.rating_meter.vertical.no_flex ul.marking li {
+  display: table-row;
+  border-bottom: 1px solid #919191;
+}
+
+.rating_meter.vertical.no_flex ul.marking li:last-child {
+  border: none;
+}
+
+.rating_meter.horizontal.no_flex ul.marking {
+  direction: rtl;
+}
+
+.rating_meter.horizontal.no_flex ul.marking li {
+  direction: ltr;
+  display: table-cell;
+}
+/* End no flex support */
