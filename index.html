@@ -8,6 +8,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" media="screen">
   </head>
   <body>
     <section class="page-header">
@@ -71,6 +72,28 @@ height<span class="pl-k">:</span> <span class="pl-c1">20</span> <span class="pl-
 <div class="highlight highlight-javascript"><pre>grade<span class="pl-k">:</span> <span class="pl-c1">2</span> <span class="pl-c">// Define at which grade component will be initialized. eg. 2 =&gt; good</span></pre></div>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-en">onGradeChanged</span>: <span class="pl-k">function</span> () {} <span class="pl-c">// callback to be called when user confirm selection of grade (click on grade in maximized view)</span></pre></div>
+
+
+
+    <div class="num"></div>
+    <div class="def"></div>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery.rating.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        
+        $('.num').rating({
+          width: 300, height: 30,
+          grades: ['5','4','3','2','1'],
+        });
+        $('.def').rating({
+          orientation: "vertical",
+          grade: 1
+        });
+      });
+    </script>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/gboiko/rating">Rating</a> is maintained by <a href="https://github.com/gboiko">gboiko</a>.</span>
