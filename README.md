@@ -22,9 +22,12 @@ $('.rating_element').rating();
 
 This will create rating component with default settings.
 
-Plugin has next options:
+## Customization
+Plugin supports next options:
+
 ```javascript 
 $('.rating_element').rating({
+    orientation: 'horizontal',
     width: 300, 
     height: 30,
     scale: 1.5,
@@ -32,6 +35,10 @@ $('.rating_element').rating({
     grade: 1,
     onGradeChanged: function () {}
   });
+```
+
+```javascript
+orientation: 'horizontal/vertical' // define orientation of the component
 ```
 
 ```javascript
