@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Rating by gboiko</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Rating</h1>
+      <h2 class="project-tagline">jQuery plugin to show rating component</h2>
+      <a href="https://github.com/gboiko/rating" class="btn">View on GitHub</a>
+      <a href="https://github.com/gboiko/rating/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/gboiko/rating/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="rating" class="anchor" href="#rating" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rating</h1>
+
+<p>jQuery plugin to display rating component </p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Include script after the jQuery library:</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/path/to/jquery.rating.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Create an html element on the page</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>rating_element<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<p>Initialize rating component when scripts loaded:</p>
+
+<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.rating_element<span class="pl-pds">'</span></span>).rating();</pre></div>
+
+<p>This will create rating component with default settings.</p>
+
+<h2>
+<a id="customization" class="anchor" href="#customization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customization</h2>
+
+<p>Plugin supports next options:</p>
+
+<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.rating_element<span class="pl-pds">'</span></span>).rating({
+    orientation<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>horizontal<span class="pl-pds">'</span></span>,
+    width<span class="pl-k">:</span> <span class="pl-c1">300</span>, 
+    height<span class="pl-k">:</span> <span class="pl-c1">30</span>,
+    scale<span class="pl-k">:</span> <span class="pl-c1">1.5</span>,
+    grades<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>5<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>4<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>3<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>2<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>1<span class="pl-pds">'</span></span>],
+    grade<span class="pl-k">:</span> <span class="pl-c1">1</span>,
+    <span class="pl-en">onGradeChanged</span>: <span class="pl-k">function</span> () {}
+  });</pre></div>
+
+<div class="highlight highlight-javascript"><pre>orientation<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>horizontal/vertical<span class="pl-pds">'</span></span> <span class="pl-c">// define orientation of the component</span></pre></div>
+
+<div class="highlight highlight-javascript"><pre>width<span class="pl-k">:</span> <span class="pl-c1">200</span> <span class="pl-c">// define width of maximized component</span>
+height<span class="pl-k">:</span> <span class="pl-c1">20</span> <span class="pl-c">// define height of maximized component</span></pre></div>
+
+<div class="highlight highlight-javascript"><pre>scale<span class="pl-k">:</span> <span class="pl-c1">1.5</span> <span class="pl-c">// define how many times minified component will be related to maximized component. eg. 300/1.5 = 200</span></pre></div>
+
+<div class="highlight highlight-javascript"><pre>grades<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>great<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>good<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>better<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>woops<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>bad<span class="pl-pds">'</span></span>] <span class="pl-c">// define grades that will be displayed on the page.</span></pre></div>
+
+<div class="highlight highlight-javascript"><pre>grade<span class="pl-k">:</span> <span class="pl-c1">2</span> <span class="pl-c">// Define at which grade component will be initialized. eg. 2 =&gt; good</span></pre></div>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-en">onGradeChanged</span>: <span class="pl-k">function</span> () {} <span class="pl-c">// callback to be called when user confirm selection of grade (click on grade in maximized view)</span></pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/gboiko/rating">Rating</a> is maintained by <a href="https://github.com/gboiko">gboiko</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
