@@ -26,6 +26,11 @@
 <p>jQuery plugin to display rating component </p>
 
 <h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Live example</h2>
+<div class="num"></div>
+<div class="def"></div>
+
+<h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Include script after the jQuery library:</p>
@@ -52,7 +57,7 @@
 
 <div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.rating_element<span class="pl-pds">'</span></span>).rating({
     orientation<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>horizontal<span class="pl-pds">'</span></span>,
-    width<span class="pl-k">:</span> <span class="pl-c1">300</span>, 
+    width<span class="pl-k">:</span> <span class="pl-c1">300</span>,
     height<span class="pl-k">:</span> <span class="pl-c1">30</span>,
     scale<span class="pl-k">:</span> <span class="pl-c1">1.5</span>,
     grades<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>5<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>4<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>3<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>2<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>1<span class="pl-pds">'</span></span>],
@@ -75,15 +80,14 @@ height<span class="pl-k">:</span> <span class="pl-c1">20</span> <span class="pl-
 
 
 
-    <div class="num"></div>
-    <div class="def"></div>
+
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="javascript/jquery.rating.js"></script>
 
     <script type="text/javascript">
       $(document).ready(function () {
-        
+
         $('.num').rating({
           width: 300, height: 30,
           grades: ['5','4','3','2','1'],
@@ -103,7 +107,7 @@ height<span class="pl-k">:</span> <span class="pl-c1">20</span> <span class="pl-
 
     </section>
 
-  
+
   </body>
 </html>
 
