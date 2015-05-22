@@ -107,10 +107,6 @@
       return scale;
     };
 
-    Rating.prototype.generateOverlay = function () {
-      return $('<div class="overlay min">')
-    };
-
     Rating.prototype.getCurrentDimensions = function () {
       var width = this.settings.width, height = this.settings.height;
       if (this.minified) {
