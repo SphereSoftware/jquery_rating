@@ -57,8 +57,9 @@
       this.element.on('click', this.toggleState.bind(this));
       $(document).mousemove(this.changeScale.bind(this));
       $(document).on('touchmove', function(e) {
-        e.preventDefault();
-        this.changeScale(e.originalEvent.touches[0]);
+        e.pageX = e.originalEvent.touches[0].pageX;
+        e.pageY = e.originalEvent.touches[0].pageY;
+        this.changeScale(e);
       }.bind(this));
     };
 
@@ -138,6 +139,8 @@
       if (!this.isOnElement(evt.pageX, evt.pageY) || this.minified) {
         return false;
       }
+
+      evt.preventDefault();
 
       var currentGrade = this.getCurrentGrade(evt.pageX, evt.pageY);
       if (force || currentGrade !== this.selectedGrade) {
