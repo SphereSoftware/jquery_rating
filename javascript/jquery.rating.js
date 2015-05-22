@@ -56,6 +56,10 @@
     Rating.prototype.bindActions = function () {
       this.element.on('click', this.toggleState.bind(this));
       $(document).mousemove(this.changeScale.bind(this));
+      $(document).on('touchmove', function(e) {
+        e.preventDefault();
+        this.changeScale(e.originalEvent.touches[0]);
+      }.bind(this));
     };
 
     Rating.prototype.toggleState = function (evt) {
