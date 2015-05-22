@@ -37,7 +37,7 @@
         // onGradeChanged: function () {} // event will be emited when user click on grade in maximized mode
 
         $('.num').rating({
-          width: 300, height: 30,
+          width: 300, height: 50,
           grades: ['5','4','3','2','1'],
           onGradeChanged: function (grade) {
             console.log('changed grade ', grade);
@@ -45,6 +45,7 @@
         });
 
         $('.def').rating({
+          width: 55, height: 300,
           orientation: "vertical",
           grade: 1,
           onGradeChanged: function (grade) {
