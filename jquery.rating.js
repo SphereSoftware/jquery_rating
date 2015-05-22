@@ -5,8 +5,9 @@
     function Rating (element, settings) {
       this.element = $(element);
       this.settings = settings;
-      this.minified = null;
       this.selectedGrade = this.settings.grade;
+      this.supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+      this.minified = !this.supportsTouch;
 
       this.switchTimeout = null;
 
@@ -15,7 +16,12 @@
 
     Rating.prototype.initalize = function () {
       this.appendClasses();
-      this.minify();
+      if (this.minified) {
+        this.minify();
+      } else {
+        this.maximize()
+      }
+
       this.bindActions();
       this.position = this.element.offset();
       this.element.append(
@@ -67,9 +73,10 @@
     };
 
     Rating.prototype.toggleState = function (evt) {
+      if (this.supportsTouch) { return false }
       if (this.minified) {
         this.maximize();
-        this.changeScale(evt, true);
+        this.changeScale(evt);
       } else {
         this.minify();
         this.setGrade(this.selectedGrade, true);
