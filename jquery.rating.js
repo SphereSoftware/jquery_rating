@@ -63,6 +63,12 @@
 
     Rating.prototype.bindActions = function () {
       this.element.on('click', this.toggleState.bind(this));
+      $(document).on('touchend', function(e) {
+        var touchEvent = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        if (this.isOnElement(touchEvent.pageX, touchEvent.pageY)) {
+          this.reportValueChanged();
+        }
+      }.bind(this));
       $(document).mousemove(this.changeScale.bind(this));
       $(document).on('touchmove', function(e) {
         var touchEvent = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
@@ -171,18 +177,25 @@
       }
       this.selectedGrade = grade;
       if (force) { this.changeOverval(params) }
-      else ( this.animateOverlay(params))
+      else { this.animateOverlay(params) }
     };
 
     Rating.prototype.animateOverlay = function (params) {
+      if (this.supportsTouch) {
+        return this.animateOverlayMobile(params);
+      }
       if (this.switchTimeout) {
         clearTimeout(this.switchTimeout);
       }
 
       var self = this;
       this.switchTimeout = setTimeout(function () {
-        self.overlay.animate(params, 150)
+        self.overlay.animate(params, 150);
       }, 100);
+    };
+
+    Rating.prototype.animateOverlayMobile = function (params) {
+      this.overlay.animate(params, 100);
     };
 
     Rating.prototype.changeOverval = function (params) {
