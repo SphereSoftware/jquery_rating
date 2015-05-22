@@ -22,7 +22,9 @@
         this.generateMarking(),
         this.generateScale()
       );
-      this.setGrade(this.selectedGrade, true);
+      if (this.selectedGrade) {
+        this.setGrade(this.selectedGrade, true);
+      }
     };
 
     Rating.prototype.appendClasses = function () {
@@ -205,8 +207,7 @@
       width: 200,
       height: 30,
       scale: 1.5,
-      grades: ['great', 'good', 'better', 'woops', 'bad'],
-      grade: 1
+      grades: ['great', 'good', 'better', 'woops', 'bad']
     }, options);
 
     if (settings.orientation == 'vertical' &&
@@ -215,8 +216,8 @@
         settings.height = 200;
     }
 
-    if (settings.orientation == 'vertical' && !options.grade) {
-      settings.grade = settings.grades.length;
+    if (options.grade !== null) {
+      settings.grade = settings.grades.indexOf(options.grade) + 1;
     }
 
     if (!settings.minifiedHeight) {

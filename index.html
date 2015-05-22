@@ -74,7 +74,7 @@ height<span class="pl-k">:</span> <span class="pl-c1">20</span> <span class="pl-
 
 <div class="highlight highlight-javascript"><pre>grades<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>great<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>good<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>better<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>woops<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>bad<span class="pl-pds">'</span></span>] <span class="pl-c">// define grades that will be displayed on the page.</span></pre></div>
 
-<div class="highlight highlight-javascript"><pre>grade<span class="pl-k">:</span> <span class="pl-c1">2</span> <span class="pl-c">// Define at which grade component will be initialized. eg. 2 =&gt; good</span></pre></div>
+<div class="highlight highlight-javascript"><pre>grade<span class="pl-k">:</span> <span class="pl-c1">good</span> <span class="pl-c">// Define at which grade component will be initialized.</span></pre></div>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-en">onGradeChanged</span>: <span class="pl-k">function</span> () {} <span class="pl-c">// callback to be called when user confirm selection of grade (click on grade in maximized view)</span></pre></div>
 
@@ -91,11 +91,12 @@ height<span class="pl-k">:</span> <span class="pl-c1">20</span> <span class="pl-
         $('.num').rating({
           width: 300, height: 50,
           grades: ['5','4','3','2','1'],
+          grade: '2'
         });
         $('.def').rating({
           width: 55, height: 300,
           orientation: "vertical",
-          grade: 1
+          grade: 'great'
         });
       });
     </script>
