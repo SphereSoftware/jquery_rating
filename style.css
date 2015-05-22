@@ -106,7 +106,7 @@
 
 .rating_meter.vertical .overlay {
   left: 0;
-  bottom: 180px;
+  bottom: 0;
 }
 /* End vertical orientation */
 

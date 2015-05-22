@@ -33,12 +33,13 @@
         // height: 30, // height of maximized element
         // scale: 1.5, // define dimensions of minified version eg width 200 / 1.5 = 133
         // grades: ['great', 'good', 'better', 'woops', 'bad'],
-        // grade: 1, // default grade
+        // grade: 'great', // default grade
         // onGradeChanged: function () {} // event will be emited when user click on grade in maximized mode
 
         $('.num').rating({
           width: 300, height: 50,
           grades: ['5','4','3','2','1'],
+          grade: '2',
           onGradeChanged: function (grade) {
             console.log('changed grade ', grade);
           }
@@ -47,7 +48,7 @@
         $('.def').rating({
           width: 55, height: 300,
           orientation: "vertical",
-          grade: 1,
+          grade: 'great',
           onGradeChanged: function (grade) {
             console.log('changed grade ', grade);
           }
