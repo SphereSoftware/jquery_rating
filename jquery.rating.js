@@ -59,8 +59,9 @@
       this.element.on('click', this.toggleState.bind(this));
       $(document).mousemove(this.changeScale.bind(this));
       $(document).on('touchmove', function(e) {
-        e.pageX = e.originalEvent.touches[0].pageX;
-        e.pageY = e.originalEvent.touches[0].pageY;
+        var touchEvent = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        e.pageX = touchEvent.pageX;
+        e.pageY = touchEvent.pageY;
         this.changeScale(e);
       }.bind(this));
     };
@@ -173,8 +174,8 @@
 
       var self = this;
       this.switchTimeout = setTimeout(function () {
-        self.overlay.animate(params, 250)
-      }, 300);
+        self.overlay.animate(params, 150)
+      }, 100);
     };
 
     Rating.prototype.changeOverval = function (params) {
