@@ -62,7 +62,7 @@
 
       Smiley.prototype.changeMood = function (mood) {
         console.log()
-        var value = (50 - 50 * 2 / this.maxGrades * mood);
+        var value = (40 - 40 * 2 / this.maxGrades * mood);
         var color = this.smileyColor[
           Math.floor(mood*(this.smileyColor.length-1)/(this.maxGrades-1))
         ];
