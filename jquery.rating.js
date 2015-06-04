@@ -41,7 +41,7 @@
 
       Smiley.prototype.createPath = function () {
         var obj = document.createElementNS("http://www.w3.org/2000/svg", "path"),
-            baseCurve = 'M99.9,103.8 c0,0-22.5,-22.5-53,0';
+            baseCurve = 'M99.9,103.8 c0,0-25,-25-53,0';
         obj.setAttributeNS(null, "fill", 'none');
         obj.setAttributeNS(null, "stroke", '#ae4d51');
         obj.setAttributeNS(null, "stroke-linecap", 'round');
@@ -62,13 +62,13 @@
 
       Smiley.prototype.changeMood = function (mood) {
         console.log()
-        var value = (22.5 - 22.5 * 2 / this.maxGrades * mood);
+        var value = (25 - 25 * 2 / this.maxGrades * mood);
         var color = this.smileyColor[
           Math.floor(mood*(this.smileyColor.length-1)/(this.maxGrades-1))
         ];
         this.applyColor(color);
 
-        var basePath = "M99.9,103.8 c0,0-22.5,%curve-53,0";
+        var basePath = "M99.9,103.8 c0,0-25,%curve-53,0";
         this.html.mouth.setAttributeNS(null, "d", basePath.replace(/\%curve/, value));
       };
 
