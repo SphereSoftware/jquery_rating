@@ -55,9 +55,9 @@
         var lumColor = this.colorLuminance(color, -0.2);
         this.html.face.setAttributeNS(null, "fill", color );
         this.html.border.setAttributeNS(null, "fill", lumColor );
-        this.html.leftEye.setAttributeNS(null, "fill", lumColor );
-        this.html.rightEye.setAttributeNS(null, "fill", lumColor );
-        this.html.mouth.setAttributeNS(null, "stroke", lumColor );
+        this.html.leftEye.setAttributeNS(null, "fill", "#fff" );
+        this.html.rightEye.setAttributeNS(null, "fill", "#fff"  );
+        this.html.mouth.setAttributeNS(null, "stroke", "#fff"  );
       };
 
       Smiley.prototype.changeMood = function (mood) {
@@ -119,9 +119,9 @@
       this.bindActions();
       this.position = this.element.offset();
       this.element.append(
-        this.generateMarking(),
         this.generateScale(),
-        this.smiley.getHtml()
+        this.smiley.getHtml(),
+        this.generateGradeTitle()
       );
       if (this.selectedGrade) {
         this.setGrade(this.selectedGrade, true);
@@ -156,7 +156,7 @@
       };
       this.element.css(size);
       this.position = this.element.offset();
-      this.updateSmileySize(size);
+      this.updateSmileySize({width: size.width/1.5, height: size.height/1.5});
       this.minified = false;
     };
 
@@ -199,7 +199,7 @@
     Rating.prototype.generateMarking = function () {
       var ul = $('<ul class="marking">');
       this.settings.grades.forEach(function (grade) {
-        var li = $('<li><span>' + grade + '</span></li>');
+        var li = $('<li></li>');
         ul.append(li);
       });
       return ul;
@@ -209,8 +209,15 @@
       var scale = $('<div class="scale">'),
           filling = $('<div class="filling">');
       this.overlay = $('<div class="overlay">')
-      scale.append(filling, this.overlay);
+      scale.append(filling, this.overlay, this.generateMarking());
       return scale;
+    };
+
+    Rating.prototype.generateGradeTitle = function () {
+      var settings = this.settings;
+      this.currentGradeHtml = $('<div class="currentGrade">' + settings.grade +
+       '/' + settings.grades.length + '</div>');
+      return this.currentGradeHtml;
     };
 
     Rating.prototype.getCurrentDimensions = function () {
@@ -279,16 +286,21 @@
       }
       this.selectedGrade = grade;
       this.reportGradeChange();
+      this.updateGradeTitle();
       if (force) { this.changeOverval(params) }
       else { this.animateOverlay(params) }
     };
 
     Rating.prototype.animateOverlay = function (params) {
-      this.overlay.animate(params, 100);
+      this.overlay.animate(params, 50);
     };
 
     Rating.prototype.changeOverval = function (params) {
       this.overlay.css(params);
+    };
+
+    Rating.prototype.updateGradeTitle = function () {
+      this.currentGradeHtml.html(this.getCurrentGradeValue() + '/' + this.settings.grades.length);
     };
 
     Rating.prototype.reportGradeChange = function () {
@@ -305,17 +317,19 @@
     Rating.prototype.reportValueChanged = function () {
       if (!this.settings.onGradeChanged) { return false }
 
+      var gradeValue = this.getCurrentGradeValue();
+      this.settings.onGradeChanged(gradeValue);
+    };
+
+    Rating.prototype.getCurrentGradeValue = function () {
       var gradeValue = null, grade = this.selectedGrade;
       if (this.settings.orientation === 'vertical') {
         gradeValue = this.settings.grades[grade - 1];
       } else {
         gradeValue = this.settings.grades[this.settings.grades.length - grade];
       }
-
-      if (gradeValue) {
-        this.settings.onGradeChanged(gradeValue);
-      }
-    };
+      return gradeValue;
+    }
 
     return Rating;
   }());
