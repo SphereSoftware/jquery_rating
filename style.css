@@ -115,6 +115,12 @@
   left: 0;
   bottom: 0;
 }
+
+.rating_meter.vertical svg {
+  position: absolute;
+  bottom: -65px;
+  left: 0;
+}
 /* End vertical orientation */
 
 
@@ -169,7 +175,14 @@
   bottom: 0;
 }
 
+.rating_meter.horizontal svg {
+  position: absolute;
+  right: -65px;
+  top: 0;
+}
 /* End horizontal orientation */
+
+
 
 /* No flex support */
 .rating_meter.no_flex ul.marking {

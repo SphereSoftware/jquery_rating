@@ -2,6 +2,100 @@
 
   var Rating = (function () {
 
+    window.Smiley = (function () {
+
+      function Smiley (maxGrades, currentGrade) {
+        this.smileyColor = ['#84b458', '#92c563', '#a9db7a', '#eed16a','#dbae51', '#dba652','#e27378', '#d96065'];
+        this.html = {};
+        this.maxGrades = maxGrades;
+        this.render();
+        this.changeMood(currentGrade);
+      }
+
+      Smiley.prototype.getHtml = function () {
+        var svg = this.html.svg[0];
+        svg.appendChild(this.html.border);
+        svg.appendChild(this.html.face);
+        svg.appendChild(this.html.leftEye);
+        svg.appendChild(this.html.rightEye);
+        svg.appendChild(this.html.mouth);
+        return svg;
+      };
+
+      Smiley.prototype.render = function () {
+        this.html.svg = $('<svg viewBox="0 0 150 150" width="75px" height="75px"></svg>');
+        this.html.border = this.createCycle(75, 75, 75);
+        this.html.face = this.createCycle(75, 75, 68);
+        this.html.leftEye = this.createCycle(53, 65, 8.5);
+        this.html.rightEye = this.createCycle(97, 65, 8.5);
+        this.html.mouth = this.createPath();
+      };
+
+      Smiley.prototype.createCycle = function (cx, cy, r) {
+        var obj = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        obj.setAttributeNS(null, "cx", cx);
+        obj.setAttributeNS(null, "cy", cy);
+        obj.setAttributeNS(null, "r",  r);
+        return obj;
+      };
+
+      Smiley.prototype.createPath = function () {
+        var obj = document.createElementNS("http://www.w3.org/2000/svg", "path"),
+            baseCurve = 'M99.9,103.8 c0,0-22.5,-22.5-53,0';
+        obj.setAttributeNS(null, "fill", 'none');
+        obj.setAttributeNS(null, "stroke", '#ae4d51');
+        obj.setAttributeNS(null, "stroke-linecap", 'round');
+        obj.setAttributeNS(null, "stroke-miterlimit",  '10');
+        obj.setAttributeNS(null, "stroke-width",  '6');
+        obj.setAttributeNS(null, "d",  baseCurve);
+        return obj;
+      };
+
+      Smiley.prototype.applyColor = function (color) {
+        var lumColor = this.colorLuminance(color, -0.2);
+        this.html.face.setAttributeNS(null, "fill", color );
+        this.html.border.setAttributeNS(null, "fill", lumColor );
+        this.html.leftEye.setAttributeNS(null, "fill", lumColor );
+        this.html.rightEye.setAttributeNS(null, "fill", lumColor );
+        this.html.mouth.setAttributeNS(null, "stroke", lumColor );
+      };
+
+      Smiley.prototype.changeMood = function (mood) {
+        console.log()
+        var value = (22.5 - 22.5 * 2 / this.maxGrades * mood);
+        var color = this.smileyColor[
+          Math.floor(mood*(this.smileyColor.length-1)/(this.maxGrades-1))
+        ];
+        this.applyColor(color);
+
+        var basePath = "M99.9,103.8 c0,0-22.5,%curve-53,0";
+        this.html.mouth.setAttributeNS(null, "d", basePath.replace(/\%curve/, value));
+      };
+
+      Smiley.prototype.colorLuminance = function (hex, lum) {
+        hex = String(hex).replace(/[^0-9a-f]/gi, '');
+        if (hex.length < 6) {
+          hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+        }
+        lum = lum || 0;
+        var rgb = "#", c, i;
+        for (i = 0; i < 3; i++) {
+          c = parseInt(hex.substr(i*2,2), 16);
+          c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+          rgb += ("00"+c).substr(c.length);
+        }
+
+        return rgb;
+      };
+
+      Smiley.prototype.setSize = function (size) {
+        console.log(size);
+        this.html.svg.attr({height: Math.floor(size), width:  Math.floor(size)});
+      };
+
+      return Smiley;
+    }());
+
     function Rating (element, settings) {
       this.element = $(element);
       this.settings = settings;
@@ -9,6 +103,7 @@
       this.supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
       this.minified = !this.supportsTouch;
 
+      this.smiley = new Smiley(this.settings.grades.length, this.settings.grade);
       this.switchTimeout = null;
 
       this.initalize();
@@ -26,7 +121,8 @@
       this.position = this.element.offset();
       this.element.append(
         this.generateMarking(),
-        this.generateScale()
+        this.generateScale(),
+        this.smiley.getHtml()
       );
       if (this.selectedGrade) {
         this.setGrade(this.selectedGrade, true);
@@ -43,22 +139,33 @@
 
     Rating.prototype.minify = function () {
       this.element.addClass('minified');
-      this.element.css({
+      var size = {
         width: this.settings.minifiedWidth,
         height: this.settings.minifiedHeight
-      });
+      };
+      this.element.css(size);
       this.position = this.element.offset();
+      this.updateSmileySize(size);
       this.minified = true;
     };
 
     Rating.prototype.maximize = function () {
       this.element.removeClass('minified');
-      this.element.css({
+      var size = {
         width: this.settings.width,
         height: this.settings.height
-      });
+      };
+      this.element.css(size);
       this.position = this.element.offset();
+      this.updateSmileySize(size);
       this.minified = false;
+    };
+
+    Rating.prototype.updateSmileySize = function (size) {
+      console.log(size, this.settings);
+      var orientation = this.settings.orientation;
+          size =  (orientation === 'horizontal') ? size.height : size.width
+      this.smiley.setSize(size);
     };
 
     Rating.prototype.bindActions = function () {
@@ -172,6 +279,7 @@
         params.left = gradeSize * grade;
       }
       this.selectedGrade = grade;
+      this.reportGradeChange();
       if (force) { this.changeOverval(params) }
       else { this.animateOverlay(params) }
     };
@@ -196,6 +304,17 @@
 
     Rating.prototype.changeOverval = function (params) {
       this.overlay.css(params);
+    };
+
+    Rating.prototype.reportGradeChange = function () {
+      var grade = this.selectedGrade;
+      console.log(grade);
+      if (this.settings.orientation === 'vertical') {
+        grade = grade - 1;
+      } else {
+        grade = this.settings.grades.length - grade;
+      }
+      this.smiley.changeMood(grade);
     };
 
     Rating.prototype.reportValueChanged = function () {
