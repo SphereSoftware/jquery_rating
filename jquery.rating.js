@@ -104,7 +104,6 @@
       this.minified = !this.supportsTouch;
 
       this.smiley = new Smiley(this.settings.grades.length, this.settings.grade);
-      this.switchTimeout = null;
 
       this.initalize();
     }
@@ -285,20 +284,6 @@
     };
 
     Rating.prototype.animateOverlay = function (params) {
-      if (this.supportsTouch) {
-        return this.animateOverlayMobile(params);
-      }
-      if (this.switchTimeout) {
-        clearTimeout(this.switchTimeout);
-      }
-
-      var self = this;
-      this.switchTimeout = setTimeout(function () {
-        self.overlay.animate(params, 150);
-      }, 100);
-    };
-
-    Rating.prototype.animateOverlayMobile = function (params) {
       this.overlay.animate(params, 100);
     };
 
