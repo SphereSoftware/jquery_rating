@@ -53,11 +53,11 @@
 
       Smiley.prototype.applyColor = function (color) {
         var lumColor = this.colorLuminance(color, -0.2);
-        this.html.face.setAttributeNS(null, "fill", color );
-        this.html.border.setAttributeNS(null, "fill", lumColor );
-        this.html.leftEye.setAttributeNS(null, "fill", "#fff" );
-        this.html.rightEye.setAttributeNS(null, "fill", "#fff"  );
-        this.html.mouth.setAttributeNS(null, "stroke", "#fff"  );
+        this.html.face.setAttributeNS(null, "fill", '#fff' );
+        this.html.border.setAttributeNS(null, "fill", color );
+        this.html.leftEye.setAttributeNS(null, "fill", color );
+        this.html.rightEye.setAttributeNS(null, "fill", color  );
+        this.html.mouth.setAttributeNS(null, "stroke", color  );
       };
 
       Smiley.prototype.changeMood = function (mood) {
