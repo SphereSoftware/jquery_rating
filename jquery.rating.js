@@ -5,7 +5,7 @@
     window.Smiley = (function () {
 
       function Smiley (maxGrades, currentGrade) {
-        this.smileyColor = ['#84b458', '#92c563', '#a9db7a', '#eed16a','#dbae51', '#dba652','#e27378', '#d96065'];
+        this.smileyColor = ['#02EECA', '#0AC2D4', '#0DB0D8', '#157DE3', '#186EE7', '#3254E6', '#4852E1', '#754DD7', '#8E4AD1', '#BF44C5'];
         this.html = {};
         this.maxGrades = maxGrades;
         this.render();
