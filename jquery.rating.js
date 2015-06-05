@@ -5,7 +5,7 @@
     window.Smiley = (function () {
 
       function Smiley (maxGrades, currentGrade) {
-        this.smileyColor = ['#84b458', '#92c563', '#a9db7a', '#eed16a','#dbae51', '#dba652','#e27378', '#d96065'];
+        this.smileyColor = ['#02EECA', '#0AC2D4', '#0DB0D8', '#157DE3', '#186EE7', '#3254E6', '#4852E1', '#754DD7', '#8E4AD1', '#BF44C5'];
         this.html = {};
         this.maxGrades = maxGrades;
         this.render();
@@ -41,7 +41,7 @@
 
       Smiley.prototype.createPath = function () {
         var obj = document.createElementNS("http://www.w3.org/2000/svg", "path"),
-            baseCurve = 'M99.9,103.8 c0,0-22.5,-22.5-53,0';
+            baseCurve = 'M99.9,103.8 c0,0-22.5,-25-53,0';
         obj.setAttributeNS(null, "fill", 'none');
         obj.setAttributeNS(null, "stroke", '#ae4d51');
         obj.setAttributeNS(null, "stroke-linecap", 'round');
@@ -53,16 +53,15 @@
 
       Smiley.prototype.applyColor = function (color) {
         var lumColor = this.colorLuminance(color, -0.2);
-        this.html.face.setAttributeNS(null, "fill", color );
-        this.html.border.setAttributeNS(null, "fill", lumColor );
-        this.html.leftEye.setAttributeNS(null, "fill", lumColor );
-        this.html.rightEye.setAttributeNS(null, "fill", lumColor );
-        this.html.mouth.setAttributeNS(null, "stroke", lumColor );
+        this.html.face.setAttributeNS(null, "fill", '#fff' );
+        this.html.border.setAttributeNS(null, "fill", color );
+        this.html.leftEye.setAttributeNS(null, "fill", color );
+        this.html.rightEye.setAttributeNS(null, "fill", color  );
+        this.html.mouth.setAttributeNS(null, "stroke", color  );
       };
 
       Smiley.prototype.changeMood = function (mood) {
-        console.log()
-        var value = (22.5 - 22.5 * 2 / this.maxGrades * mood);
+        var value = (40 - 40 * 2 / this.maxGrades * mood);
         var color = this.smileyColor[
           Math.floor(mood*(this.smileyColor.length-1)/(this.maxGrades-1))
         ];
@@ -89,8 +88,11 @@
       };
 
       Smiley.prototype.setSize = function (size) {
-        console.log(size);
         this.html.svg.attr({height: Math.floor(size), width:  Math.floor(size)});
+      };
+
+      Smiley.prototype.setPosition = function (position) {
+        this.html.svg.css(position);
       };
 
       return Smiley;
@@ -104,7 +106,6 @@
       this.minified = !this.supportsTouch;
 
       this.smiley = new Smiley(this.settings.grades.length, this.settings.grade);
-      this.switchTimeout = null;
 
       this.initalize();
     }
@@ -120,9 +121,9 @@
       this.bindActions();
       this.position = this.element.offset();
       this.element.append(
-        this.generateMarking(),
         this.generateScale(),
-        this.smiley.getHtml()
+        this.smiley.getHtml(),
+        this.generateGradeTitle()
       );
       if (this.selectedGrade) {
         this.setGrade(this.selectedGrade, true);
@@ -157,15 +158,26 @@
       };
       this.element.css(size);
       this.position = this.element.offset();
-      this.updateSmileySize(size);
+      this.updateSmileySize({width: size.width/1.5, height: size.height/1.5});
       this.minified = false;
     };
 
     Rating.prototype.updateSmileySize = function (size) {
-      console.log(size, this.settings);
-      var orientation = this.settings.orientation;
-          size =  (orientation === 'horizontal') ? size.height : size.width
-      this.smiley.setSize(size);
+      var orientation = this.settings.orientation,
+          smileySize, position;
+
+      if (orientation == 'horizontal') {
+        smileySize = size.height;
+        position = { right: -(Math.floor(smileySize + 30)) + 'px' };
+      } else {
+        smileySize = size.width;
+        position = {
+          bottom: -(Math.floor(smileySize + 30)) + 'px',
+          left: (this.element.width() - smileySize) / 2 + 'px'
+        };
+      }
+      this.smiley.setSize(smileySize);
+      this.smiley.setPosition(position);
     };
 
     Rating.prototype.bindActions = function () {
@@ -200,7 +212,7 @@
     Rating.prototype.generateMarking = function () {
       var ul = $('<ul class="marking">');
       this.settings.grades.forEach(function (grade) {
-        var li = $('<li><span>' + grade + '</span></li>');
+        var li = $('<li></li>');
         ul.append(li);
       });
       return ul;
@@ -210,8 +222,27 @@
       var scale = $('<div class="scale">'),
           filling = $('<div class="filling">');
       this.overlay = $('<div class="overlay">')
-      scale.append(filling, this.overlay);
+      scale.append(filling, this.overlay, this.generateMarking());
       return scale;
+    };
+
+    Rating.prototype.generateGradeTitle = function () {
+      var settings = this.settings;
+      this.currentGradeHtml = $('<div class="currentGrade">' + settings.grade +
+       '/' + settings.grades.length + '</div>');
+      this.currentGradeHtml.css(this.getGradeTitlePosition());
+      return this.currentGradeHtml;
+    };
+
+    Rating.prototype.getGradeTitlePosition = function () {
+      var position = {};
+      if (this.settings.orientation == 'horizontal') {
+        position.right = -(this.settings.height / 1.5 + 30) + 'px';
+        position.width = this.settings.height / 1.5 + 'px';
+      } else {
+        position.width = this.settings.width + 'px';
+      }
+      return position;
     };
 
     Rating.prototype.getCurrentDimensions = function () {
@@ -280,35 +311,25 @@
       }
       this.selectedGrade = grade;
       this.reportGradeChange();
+      this.updateGradeTitle();
       if (force) { this.changeOverval(params) }
       else { this.animateOverlay(params) }
     };
 
     Rating.prototype.animateOverlay = function (params) {
-      if (this.supportsTouch) {
-        return this.animateOverlayMobile(params);
-      }
-      if (this.switchTimeout) {
-        clearTimeout(this.switchTimeout);
-      }
-
-      var self = this;
-      this.switchTimeout = setTimeout(function () {
-        self.overlay.animate(params, 150);
-      }, 100);
-    };
-
-    Rating.prototype.animateOverlayMobile = function (params) {
-      this.overlay.animate(params, 100);
+      this.overlay.animate(params, 50);
     };
 
     Rating.prototype.changeOverval = function (params) {
       this.overlay.css(params);
     };
 
+    Rating.prototype.updateGradeTitle = function () {
+      this.currentGradeHtml.html(this.getCurrentGradeValue() + '/' + this.settings.grades.length);
+    };
+
     Rating.prototype.reportGradeChange = function () {
       var grade = this.selectedGrade;
-      console.log(grade);
       if (this.settings.orientation === 'vertical') {
         grade = grade - 1;
       } else {
@@ -320,17 +341,19 @@
     Rating.prototype.reportValueChanged = function () {
       if (!this.settings.onGradeChanged) { return false }
 
+      var gradeValue = this.getCurrentGradeValue();
+      this.settings.onGradeChanged(gradeValue);
+    };
+
+    Rating.prototype.getCurrentGradeValue = function () {
       var gradeValue = null, grade = this.selectedGrade;
       if (this.settings.orientation === 'vertical') {
         gradeValue = this.settings.grades[grade - 1];
       } else {
         gradeValue = this.settings.grades[this.settings.grades.length - grade];
       }
-
-      if (gradeValue) {
-        this.settings.onGradeChanged(gradeValue);
-      }
-    };
+      return gradeValue;
+    }
 
     return Rating;
   }());
