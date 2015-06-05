@@ -41,7 +41,7 @@
 
       Smiley.prototype.createPath = function () {
         var obj = document.createElementNS("http://www.w3.org/2000/svg", "path"),
-            baseCurve = 'M99.9,103.8 c0,0-25,-25-53,0';
+            baseCurve = 'M99.9,103.8 c0,0-22.5,-25-53,0';
         obj.setAttributeNS(null, "fill", 'none');
         obj.setAttributeNS(null, "stroke", '#ae4d51');
         obj.setAttributeNS(null, "stroke-linecap", 'round');
@@ -61,14 +61,13 @@
       };
 
       Smiley.prototype.changeMood = function (mood) {
-        console.log()
         var value = (40 - 40 * 2 / this.maxGrades * mood);
         var color = this.smileyColor[
           Math.floor(mood*(this.smileyColor.length-1)/(this.maxGrades-1))
         ];
         this.applyColor(color);
 
-        var basePath = "M99.9,103.8 c0,0-25,%curve-53,0";
+        var basePath = "M99.9,103.8 c0,0-22.5,%curve-53,0";
         this.html.mouth.setAttributeNS(null, "d", basePath.replace(/\%curve/, value));
       };
 
@@ -89,8 +88,11 @@
       };
 
       Smiley.prototype.setSize = function (size) {
-        console.log(size);
         this.html.svg.attr({height: Math.floor(size), width:  Math.floor(size)});
+      };
+
+      Smiley.prototype.setPosition = function (position) {
+        this.html.svg.css(position);
       };
 
       return Smiley;
@@ -161,10 +163,21 @@
     };
 
     Rating.prototype.updateSmileySize = function (size) {
-      console.log(size, this.settings);
-      var orientation = this.settings.orientation;
-          size =  (orientation === 'horizontal') ? size.height : size.width
-      this.smiley.setSize(size);
+      var orientation = this.settings.orientation,
+          smileySize, position;
+
+      if (orientation == 'horizontal') {
+        smileySize = size.height;
+        position = { right: -(Math.floor(smileySize + 30)) + 'px' };
+      } else {
+        smileySize = size.width;
+        position = {
+          bottom: -(Math.floor(smileySize + 30)) + 'px',
+          left: (this.element.width() - smileySize) / 2 + 'px'
+        };
+      }
+      this.smiley.setSize(smileySize);
+      this.smiley.setPosition(position);
     };
 
     Rating.prototype.bindActions = function () {
@@ -217,7 +230,19 @@
       var settings = this.settings;
       this.currentGradeHtml = $('<div class="currentGrade">' + settings.grade +
        '/' + settings.grades.length + '</div>');
+      this.currentGradeHtml.css(this.getGradeTitlePosition());
       return this.currentGradeHtml;
+    };
+
+    Rating.prototype.getGradeTitlePosition = function () {
+      var position = {};
+      if (this.settings.orientation == 'horizontal') {
+        position.right = -(this.settings.height / 1.5 + 30) + 'px';
+        position.width = this.settings.height / 1.5 + 'px';
+      } else {
+        position.width = this.settings.width + 'px';
+      }
+      return position;
     };
 
     Rating.prototype.getCurrentDimensions = function () {
@@ -305,7 +330,6 @@
 
     Rating.prototype.reportGradeChange = function () {
       var grade = this.selectedGrade;
-      console.log(grade);
       if (this.settings.orientation === 'vertical') {
         grade = grade - 1;
       } else {

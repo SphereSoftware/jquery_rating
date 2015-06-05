@@ -50,18 +50,8 @@
   width: 50px;
   height: 14px;
   position: absolute;
-  right: -80px;
   font-size: 14px;
-  bottom: 0;
-}
-
-.rating_meter.vertical .currentGrade {
-  width: 50px;
-  height: 14px;
-  position: absolute;
-  left: 16px;
-  font-size: 14px;
-  bottom: -21px;
+  text-align: center;
 }
 
 .rating_meter.minified .currentGrade{
@@ -141,15 +131,16 @@
 
 .rating_meter.vertical svg {
   position: absolute;
-  bottom: -65px;
-  left: 7px;
 }
 
-.rating_meter.vertical.minified svg {
+.rating_meter.vertical .currentGrade {
+  height: 14px;
   position: absolute;
-  bottom: -65px;
-  left: -1px;
+  left: 0;
+  font-size: 14px;
+  bottom: -21px;
 }
+
 /* End vertical orientation */
 
 
@@ -206,8 +197,17 @@
 
 .rating_meter.horizontal svg {
   position: absolute;
-  right: -65px;
   top: 0;
+}
+
+.rating_meter.horizontal .currentGrade {
+  width: 50px;
+  height: 14px;
+  position: absolute;
+  right: -73px;
+  font-size: 14px;
+  bottom: 0;
+  text-align: center;
 }
 /* End horizontal orientation */
 
